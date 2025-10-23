@@ -1,0 +1,96 @@
+/* Base styles for all views */
+.root {
+    -fx-font-family: "Inter";
+    -fx-background-color: #FFFFFF;
+}
+
+/* Header styles */
+.header {
+    -fx-background-color: #FF9933;
+    -fx-padding: 20;
+}
+
+/* Footer styles */
+.footer {
+    -fx-background-color: #000080;
+    -fx-padding: 10;
+}
+
+/* Labels */
+.label {
+    -fx-text-fill: #000080;
+}
+
+/* Buttons */
+.button {
+    -fx-background-color: #138808;
+    -fx-text-fill: WHITE;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+    -fx-padding: 10;
+    -fx-font-family: "Inter Bold";
+    -fx-font-size: 14;
+}
+
+.button:hover {
+    -fx-background-color: #0f6b06;
+}
+
+.button:pressed {
+    -fx-background-color: #0b4e04;
+}
+
+/* Text fields and text areas */
+.text-field, .text-area {
+    -fx-border-color: #000080;
+    -fx-border-width: 1;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+    -fx-padding: 8;
+    -fx-font-family: "Inter";
+    -fx-font-size: 14;
+}
+
+/* Combo boxes */
+.combo-box {
+    -fx-border-color: #000080;
+    -fx-border-width: 1;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+    -fx-padding: 8;
+    -fx-font-family: "Inter";
+    -fx-font-size: 14;
+}
+
+/* Table views */
+.table-view {
+    -fx-border-color: #000080;
+    -fx-border-width: 1;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+}
+
+.table-view .column-header {
+    -fx-background-color: #000080;
+    -fx-text-fill: WHITE;
+    -fx-font-family: "Inter Bold";
+    -fx-font-size: 12;
+}
+
+.table-view .table-cell {
+    -fx-font-family: "Inter";
+    -fx-font-size: 12;
+}
+
+/* Error and success labels */
+.error-label {
+    -fx-text-fill: #dc3545;
+    -fx-font-family: "Inter";
+    -fx-font-size: 12;
+}
+
+.success-label {
+    -fx-text-fill: #28a745;
+    -fx-font-family: "Inter";
+    -fx-font-size: 12;
+}
