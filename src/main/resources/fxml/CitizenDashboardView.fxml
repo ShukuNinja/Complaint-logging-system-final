@@ -63,10 +63,7 @@
                                     <Font name="Inter" size="14.0" />
                                  </font>
                               </Label>
-                              <ComboBox fx:id="departmentComboBox" promptText="Select department" style="-fx-border-color: #000080; -fx-border-width: 1; -fx-border-radius: 5; -fx-background-radius: 5; -fx-padding: 8;">
-                                 <font>
-                                    <Font name="Inter" size="14.0" />
-                                 </font>
+                              <ComboBox fx:id="departmentComboBox" maxWidth="Infinity" promptText="Select department" style="-fx-border-color: #000080; -fx-border-width: 1; -fx-border-radius: 5; -fx-background-radius: 5;">
                               </ComboBox>
                            </children>
                         </VBox>
@@ -77,20 +74,20 @@
                                     <Font name="Inter" size="14.0" />
                                  </font>
                               </Label>
-                              <TextArea fx:id="descriptionArea" promptText="Enter complaint description" prefHeight="100.0" style="-fx-border-color: #000080; -fx-border-width: 1; -fx-border-radius: 5; -fx-background-radius: 5; -fx-padding: 8;">
+                              <TextArea fx:id="descriptionArea" promptText="Enter complaint description" prefHeight="100.0" wrapText="true" style="-fx-border-color: #000080; -fx-border-width: 1; -fx-border-radius: 5; -fx-background-radius: 5; -fx-padding: 8;">
                                  <font>
                                     <Font name="Inter" size="14.0" />
                                  </font>
                               </TextArea>
                            </children>
                         </VBox>
-                        <Button fx:id="submitButton" maxWidth="Infinity" onAction="#handleSubmitComplaint" style="-fx-background-color: #138808; -fx-text-fill: WHITE; -fx-border-radius: 5; -fx-background-radius: 5; -fx-padding: 10;">
+                        <Button fx:id="submitButton" maxWidth="Infinity" onAction="#handleSubmitComplaint" style="-fx-background-color: #138808; -fx-text-fill: WHITE; -fx-border-radius: 5; -fx-background-radius: 5; -fx-padding: 10; -fx-cursor: hand;">
                            <font>
                               <Font name="Inter Bold" size="16.0" />
                            </font>
                            <text>Submit Complaint</text>
                         </Button>
-                        <Label fx:id="statusLabel" textFill="#dc3545" visible="false">
+                        <Label fx:id="statusLabel" textFill="#dc3545" visible="false" wrapText="true">
                            <font>
                               <Font name="Inter" size="12.0" />
                            </font>
@@ -114,42 +111,22 @@
                   </Label>
                   <TableView fx:id="complaintsTable" prefHeight="400.0">
                      <columns>
-                        <TableColumn fx:id="idColumn" text="ID" prefWidth="50.0">
-                           <cellValueFactory>
-                              <PropertyValueFactory property="complaintId" />
-                           </cellValueFactory>
-                        </TableColumn>
-                        <TableColumn fx:id="titleColumn" text="Title" prefWidth="150.0">
-                           <cellValueFactory>
-                              <PropertyValueFactory property="title" />
-                           </cellValueFactory>
-                        </TableColumn>
-                        <TableColumn fx:id="departmentColumn" text="Department" prefWidth="120.0">
-                           <cellValueFactory>
-                              <PropertyValueFactory property="assignedToDept" />
-                           </cellValueFactory>
-                        </TableColumn>
-                        <TableColumn fx:id="statusColumn" text="Status" prefWidth="100.0">
-                           <cellValueFactory>
-                              <PropertyValueFactory property="status" />
-                           </cellValueFactory>
-                        </TableColumn>
-                        <TableColumn fx:id="lodgedAtColumn" text="Lodged At" prefWidth="120.0">
-                           <cellValueFactory>
-                              <PropertyValueFactory property="lodgedAt" />
-                           </cellValueFactory>
-                        </TableColumn>
+                        <TableColumn fx:id="idColumn" text="ID" prefWidth="50.0" />
+                        <TableColumn fx:id="titleColumn" text="Title" prefWidth="150.0" />
+                        <TableColumn fx:id="departmentColumn" text="Department" prefWidth="120.0" />
+                        <TableColumn fx:id="statusColumn" text="Status" prefWidth="100.0" />
+                        <TableColumn fx:id="lodgedAtColumn" text="Lodged At" prefWidth="120.0" />
                      </columns>
                   </TableView>
-                  <HBox spacing="10.0">
+                  <HBox spacing="10.0" alignment="CENTER">
                      <children>
-                        <Button fx:id="viewDetailsButton" onAction="#handleViewDetails" style="-fx-background-color: #138808; -fx-text-fill: WHITE; -fx-border-radius: 5; -fx-background-radius: 5; -fx-padding: 10;">
+                        <Button fx:id="viewDetailsButton" onAction="#handleViewDetails" style="-fx-background-color: #138808; -fx-text-fill: WHITE; -fx-border-radius: 5; -fx-background-radius: 5; -fx-padding: 10; -fx-cursor: hand;">
                            <font>
                               <Font name="Inter Bold" size="14.0" />
                            </font>
                            <text>View Details</text>
                         </Button>
-                        <Button fx:id="refreshButton" onAction="#handleRefresh" style="-fx-background-color: #138808; -fx-text-fill: WHITE; -fx-border-radius: 5; -fx-background-radius: 5; -fx-padding: 10;">
+                        <Button fx:id="refreshButton" onAction="#handleRefresh" style="-fx-background-color: #138808; -fx-text-fill: WHITE; -fx-border-radius: 5; -fx-background-radius: 5; -fx-padding: 10; -fx-cursor: hand;">
                            <font>
                               <Font name="Inter Bold" size="14.0" />
                            </font>
@@ -166,9 +143,9 @@
       </SplitPane>
    </center>
    <bottom>
-      <HBox alignment="CENTER_LEFT" style="-fx-background-color: #000080;">
+      <HBox alignment="CENTER_LEFT" spacing="20.0" style="-fx-background-color: #000080;">
          <children>
-            <Button fx:id="logoutButton" onAction="#handleLogout" style="-fx-background-color: transparent; -fx-text-fill: WHITE; -fx-border-width: 0;">
+            <Button fx:id="logoutButton" onAction="#handleLogout" style="-fx-background-color: transparent; -fx-text-fill: WHITE; -fx-border-width: 0; -fx-cursor: hand;">
                <font>
                   <Font name="Inter Bold" size="12.0" />
                </font>

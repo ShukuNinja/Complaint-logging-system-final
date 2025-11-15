@@ -25,11 +25,11 @@ public class Complaint {
     @Column(name = "STATUS", nullable = false, length = 20)
     private ComplaintStatus status;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "LODGED_BY", nullable = false)
     private User lodgedBy;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "ASSIGNED_TO_DEPT", nullable = false)
     private Department assignedToDept;
 
@@ -39,7 +39,7 @@ public class Complaint {
     @Column(name = "UPDATED_AT")
     private LocalDateTime updatedAt;
 
-    @OneToMany(mappedBy = "complaint", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "complaint", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @OrderBy("changedAt DESC")
     private List<ComplaintHistory> history = new ArrayList<>();
 

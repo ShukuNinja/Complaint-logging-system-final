@@ -19,6 +19,7 @@ com\complaint\system\entity\User.class
 com\complaint\system\controller\CitizenDashboardController.class
 com\complaint\system\controller\SignupController.class
 com\complaint\system\entity\Department.class
+com\complaint\system\controller\ComplaintDetailsController$1.class
 com\complaint\system\util\PasswordValidator$PasswordValidationResult.class
 com\complaint\system\util\SceneManager.class
 com\complaint\system\MainApplication.class

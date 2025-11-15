@@ -1,19 +1,15 @@
 package com.complaint.system.controller;
-import javafx.beans.property.SimpleStringProperty;
-import com.complaint.system.entity.User;
-import com.complaint.system.entity.ComplaintHistory;
-
-
 
 import com.complaint.system.dao.ComplaintHistoryDAO;
 import com.complaint.system.entity.Complaint;
 import com.complaint.system.entity.ComplaintHistory;
+import com.complaint.system.entity.User;
 import com.complaint.system.util.SceneManager;
 import com.complaint.system.util.SessionManager;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -46,39 +42,85 @@ public class ComplaintDetailsController {
     }
 
     private void setupTableColumns() {
-        changedAtColumn.setCellValueFactory(cell -> 
-            new SimpleStringProperty(cell.getValue().getChangedAt().format(dateFormatter)));
-        changedByColumn.setCellValueFactory(cell -> 
-            new SimpleStringProperty(cell.getValue().getChangedBy().getFullName()));
-        previousStatusColumn.setCellValueFactory(new PropertyValueFactory<>("previousStatus"));
-        newStatusColumn.setCellValueFactory(new PropertyValueFactory<>("newStatus"));
-        remarksColumn.setCellValueFactory(new PropertyValueFactory<>("remarks"));
+        // Set cell value factories programmatically (NOT in FXML)
+        changedAtColumn.setCellValueFactory(cellData -> 
+            new SimpleStringProperty(cellData.getValue().getChangedAt().format(dateFormatter)));
+        
+        changedByColumn.setCellValueFactory(cellData -> 
+            new SimpleStringProperty(cellData.getValue().getChangedBy().getFullName()));
+        
+        previousStatusColumn.setCellValueFactory(cellData -> 
+            new SimpleStringProperty(cellData.getValue().getPreviousStatus().toString()));
+        
+        newStatusColumn.setCellValueFactory(cellData -> 
+            new SimpleStringProperty(cellData.getValue().getNewStatus().toString()));
+        
+        remarksColumn.setCellValueFactory(cellData -> {
+            String remarks = cellData.getValue().getRemarks();
+            return new SimpleStringProperty(remarks != null && !remarks.isEmpty() ? remarks : "—");
+        });
     }
 
     private void loadComplaintDetails() {
         Complaint complaint = SessionManager.getSelectedComplaint();
-        if (complaint != null) {
-            complaintIdLabel.setText(String.valueOf(complaint.getComplaintId()));
-            titleLabel.setText(complaint.getTitle());
-            descriptionLabel.setText(complaint.getDescription());
-            lodgedByLabel.setText(complaint.getLodgedBy().getFullName());
-            departmentLabel.setText(complaint.getAssignedToDept().getDeptName());
-            statusLabel.setText(complaint.getStatus().toString());
-            lodgedAtLabel.setText(complaint.getLodgedAt().format(dateFormatter));
-            updatedAtLabel.setText(complaint.getUpdatedAt() != null ? 
-                complaint.getUpdatedAt().format(dateFormatter) : "N/A");
+        if (complaint == null) {
+            // If no complaint is selected, go back to dashboard
+            handleBack();
+            return;
+        }
 
-            List<ComplaintHistory> history = historyDAO.findByComplaint(complaint);
+        // Load complaint details
+        complaintIdLabel.setText("#" + String.valueOf(complaint.getComplaintId()));
+        titleLabel.setText(complaint.getTitle());
+        descriptionLabel.setText(complaint.getDescription());
+        lodgedByLabel.setText(complaint.getLodgedBy().getFullName());
+        departmentLabel.setText(complaint.getAssignedToDept().getDeptName());
+        
+        // Style status label based on status
+        String status = complaint.getStatus().toString();
+        statusLabel.setText(status);
+        switch (complaint.getStatus()) {
+            case LODGED:
+                statusLabel.setStyle("-fx-text-fill: #0d6efd; -fx-font-weight: bold;");
+                break;
+            case IN_PROGRESS:
+                statusLabel.setStyle("-fx-text-fill: #fd7e14; -fx-font-weight: bold;");
+                break;
+            case RESOLVED:
+                statusLabel.setStyle("-fx-text-fill: #138808; -fx-font-weight: bold;");
+                break;
+            case CLOSED:
+                statusLabel.setStyle("-fx-text-fill: #6c757d; -fx-font-weight: bold;");
+                break;
+        }
+        
+        lodgedAtLabel.setText(complaint.getLodgedAt().format(dateFormatter));
+        updatedAtLabel.setText(complaint.getUpdatedAt() != null ? 
+            complaint.getUpdatedAt().format(dateFormatter) : "Not updated yet");
+
+        // Load history
+        List<ComplaintHistory> history = historyDAO.findByComplaint(complaint);
+        if (history != null && !history.isEmpty()) {
             historyTable.setItems(FXCollections.observableArrayList(history));
-            noHistoryLabel.setVisible(history.isEmpty());
+            noHistoryLabel.setVisible(false);
+            historyTable.setVisible(true);
+        } else {
+            historyTable.setVisible(false);
+            noHistoryLabel.setVisible(true);
         }
     }
 
     @FXML
     private void handleBack() {
-        String fxml = SessionManager.hasRole(User.UserRole.CITIZEN) ? 
+        User currentUser = SessionManager.getCurrentUser();
+        if (currentUser == null) {
+            SceneManager.loadScene("LoginView.fxml", "Login");
+            return;
+        }
+
+        String fxml = currentUser.getRole() == User.UserRole.CITIZEN ? 
             "CitizenDashboardView.fxml" : "OfficialDashboardView.fxml";
-        String title = SessionManager.hasRole(User.UserRole.CITIZEN) ? 
+        String title = currentUser.getRole() == User.UserRole.CITIZEN ? 
             "Citizen Dashboard" : "Official Dashboard";
         SceneManager.loadScene(fxml, title);
     }

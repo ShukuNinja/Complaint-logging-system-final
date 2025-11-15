@@ -15,10 +15,19 @@ public class MainApplication extends Application {
     public void start(Stage primaryStage) {
         try {
             logger.info("Starting Citizen Complaint Management System");
+            
+            // Configure stage BEFORE setting it in SceneManager
+            primaryStage.setResizable(true);
+            primaryStage.setMaximized(false);
+            primaryStage.setMinWidth(1024);
+            primaryStage.setMinHeight(768);
+            primaryStage.setWidth(1280);
+            primaryStage.setHeight(800);
+            
             SceneManager.setPrimaryStage(primaryStage);
             DataSeeder.seed();
             SceneManager.loadScene("LoginView.fxml", "Citizen Complaint Management System - Login");
-            primaryStage.setResizable(false);
+            
             primaryStage.show();
         } catch (Exception e) {
             logger.error("Error starting application", e);

@@ -1,8 +1,4 @@
 package com.complaint.system.controller;
-import javafx.beans.property.SimpleStringProperty;
-import com.complaint.system.entity.ComplaintHistory;
-import com.complaint.system.entity.User;
-
 
 import com.complaint.system.dao.ComplaintDAO;
 import com.complaint.system.dao.DepartmentDAO;
@@ -11,10 +7,11 @@ import com.complaint.system.entity.Department;
 import com.complaint.system.util.InputSanitizer;
 import com.complaint.system.util.SceneManager;
 import com.complaint.system.util.SessionManager;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -53,13 +50,21 @@ public class CitizenDashboardController {
     }
 
     private void setupTableColumns() {
-        idColumn.setCellValueFactory(new PropertyValueFactory<>("complaintId"));
-        titleColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
-        departmentColumn.setCellValueFactory(cell -> 
-            new SimpleStringProperty(cell.getValue().getAssignedToDept().getDeptName()));
-        statusColumn.setCellValueFactory(new PropertyValueFactory<>("status"));
-        lodgedAtColumn.setCellValueFactory(cell -> 
-            new SimpleStringProperty(cell.getValue().getLodgedAt().format(dateFormatter)));
+        // Set cell value factories programmatically (NOT in FXML)
+        idColumn.setCellValueFactory(cellData -> 
+            new SimpleObjectProperty<>(cellData.getValue().getComplaintId()));
+        
+        titleColumn.setCellValueFactory(cellData -> 
+            new SimpleStringProperty(cellData.getValue().getTitle()));
+        
+        departmentColumn.setCellValueFactory(cellData -> 
+            new SimpleStringProperty(cellData.getValue().getAssignedToDept().getDeptName()));
+        
+        statusColumn.setCellValueFactory(cellData -> 
+            new SimpleStringProperty(cellData.getValue().getStatus().toString()));
+        
+        lodgedAtColumn.setCellValueFactory(cellData -> 
+            new SimpleStringProperty(cellData.getValue().getLodgedAt().format(dateFormatter)));
     }
 
     private void loadDepartments() {
@@ -120,5 +125,6 @@ public class CitizenDashboardController {
         titleField.clear();
         descriptionArea.clear();
         departmentComboBox.getSelectionModel().clearSelection();
+        statusLabel.setVisible(false);
     }
 }

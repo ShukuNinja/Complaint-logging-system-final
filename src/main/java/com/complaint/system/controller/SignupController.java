@@ -1,5 +1,4 @@
 package com.complaint.system.controller;
-import javafx.beans.property.SimpleStringProperty;
 
 import com.complaint.system.dao.UserDAO;
 import com.complaint.system.entity.User;

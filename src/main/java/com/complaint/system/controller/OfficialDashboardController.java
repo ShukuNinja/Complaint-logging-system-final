@@ -1,23 +1,23 @@
 package com.complaint.system.controller;
-import javafx.beans.property.SimpleStringProperty;
-import com.complaint.system.entity.ComplaintHistory;
-import com.complaint.system.entity.User;
 
 import com.complaint.system.dao.ComplaintDAO;
 import com.complaint.system.dao.ComplaintHistoryDAO;
 import com.complaint.system.dao.DepartmentDAO;
 import com.complaint.system.entity.Complaint;
+import com.complaint.system.entity.ComplaintHistory;
 import com.complaint.system.entity.Department;
 import com.complaint.system.util.InputSanitizer;
 import com.complaint.system.util.SceneManager;
 import com.complaint.system.util.SessionManager;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
 
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -66,24 +66,38 @@ public class OfficialDashboardController {
     }
 
     private void setupTableColumns() {
-        idColumn.setCellValueFactory(new PropertyValueFactory<>("complaintId"));
-        titleColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
-        lodgedByColumn.setCellValueFactory(cell -> 
-            new SimpleStringProperty(cell.getValue().getLodgedBy().getFullName()));
-        departmentColumn.setCellValueFactory(cell -> 
-            new SimpleStringProperty(cell.getValue().getAssignedToDept().getDeptName()));
-        statusColumn.setCellValueFactory(new PropertyValueFactory<>("status"));
-        lodgedAtColumn.setCellValueFactory(cell -> 
-            new SimpleStringProperty(cell.getValue().getLodgedAt().format(dateFormatter)));
+        // Set cell value factories programmatically (NOT in FXML)
+        idColumn.setCellValueFactory(cellData -> 
+            new SimpleObjectProperty<>(cellData.getValue().getComplaintId()));
+        
+        titleColumn.setCellValueFactory(cellData -> 
+            new SimpleStringProperty(cellData.getValue().getTitle()));
+        
+        lodgedByColumn.setCellValueFactory(cellData -> 
+            new SimpleStringProperty(cellData.getValue().getLodgedBy().getFullName()));
+        
+        departmentColumn.setCellValueFactory(cellData -> 
+            new SimpleStringProperty(cellData.getValue().getAssignedToDept().getDeptName()));
+        
+        statusColumn.setCellValueFactory(cellData -> 
+            new SimpleStringProperty(cellData.getValue().getStatus().toString()));
+        
+        lodgedAtColumn.setCellValueFactory(cellData -> 
+            new SimpleStringProperty(cellData.getValue().getLodgedAt().format(dateFormatter)));
     }
 
     private void loadFilters() {
-        List<Department> departments = departmentDAO.findAll();
-        departments.add(0, null);
+        // Department filter
+        List<Department> departments = new ArrayList<>(departmentDAO.findAll());
         departmentFilterComboBox.setItems(FXCollections.observableArrayList(departments));
-        List<Complaint.ComplaintStatus> statuses = Arrays.asList(Complaint.ComplaintStatus.values());
-        statuses.add(0, null);
+        departmentFilterComboBox.setPromptText("All Departments");
+        
+        // Status filter
+        List<Complaint.ComplaintStatus> statuses = new ArrayList<>(Arrays.asList(Complaint.ComplaintStatus.values()));
         statusFilterComboBox.setItems(FXCollections.observableArrayList(statuses));
+        statusFilterComboBox.setPromptText("All Statuses");
+        
+        // Status update combo
         statusUpdateComboBox.setItems(FXCollections.observableArrayList(Complaint.ComplaintStatus.values()));
     }
 
@@ -91,6 +105,7 @@ public class OfficialDashboardController {
         Department department = departmentFilterComboBox.getValue();
         Complaint.ComplaintStatus status = statusFilterComboBox.getValue();
         List<Complaint> complaints;
+        
         if (department != null && status != null) {
             complaints = complaintDAO.findByDepartmentAndStatus(department, status);
         } else if (department != null) {
@@ -98,8 +113,9 @@ public class OfficialDashboardController {
         } else if (status != null) {
             complaints = complaintDAO.findByStatus(status);
         } else {
-            complaints = complaintDAO.findAllPaginated(1, 50);
+            complaints = complaintDAO.findAllPaginated(1, 100);
         }
+        
         complaintsTable.setItems(FXCollections.observableArrayList(complaints));
     }
 
@@ -125,8 +141,8 @@ public class OfficialDashboardController {
 
     @FXML
     private void handleClearFilter() {
-        departmentFilterComboBox.getSelectionModel().select(null);
-        statusFilterComboBox.getSelectionModel().select(null);
+        departmentFilterComboBox.getSelectionModel().clearSelection();
+        statusFilterComboBox.getSelectionModel().clearSelection();
         refreshComplaints();
     }
 
@@ -145,8 +161,14 @@ public class OfficialDashboardController {
 
         Complaint.ComplaintStatus newStatus = statusUpdateComboBox.getValue();
         String remarks = InputSanitizer.sanitizeText(remarksArea.getText());
+        
         if (newStatus == null) {
             showUpdateStatus("Please select a new status.", false);
+            return;
+        }
+
+        if (newStatus == selected.getStatus() && remarks.isEmpty()) {
+            showUpdateStatus("No changes detected.", false);
             return;
         }
 
@@ -161,6 +183,7 @@ public class OfficialDashboardController {
 
         showUpdateStatus("Status updated successfully.", true);
         refreshComplaints();
+        showComplaintDetails(selected);
     }
 
     @FXML

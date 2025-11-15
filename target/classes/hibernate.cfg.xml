@@ -6,15 +6,16 @@
 <hibernate-configuration>
     <session-factory>
 
-        <!-- ✅ Correct Oracle Connection for HikariCP -->
-        <property name="hibernate.hikari.jdbcUrl">${env.DB_URL:jdbc:oracle:thin:@localhost:1521/XEPDB1}</property>
-        <property name="hibernate.hikari.username">${env.DB_USERNAME:complaint_system}</property>
-        <property name="hibernate.hikari.password">${env.DB_PASSWORD:password123}</property>
-        <property name="hibernate.hikari.driverClassName">oracle.jdbc.OracleDriver</property>
+        <!-- Standard Hibernate Connection Properties (required for HikariCP integration) -->
+        <property name="hibernate.connection.driver_class">oracle.jdbc.OracleDriver</property>
+        <property name="hibernate.connection.url">jdbc:oracle:thin:@localhost:1521/XEPDB1</property>
+        <property name="hibernate.connection.username">complaint_system</property>
+        <property name="hibernate.connection.password">password123</property>
 
+        <!-- Use HikariCP as connection provider -->
         <property name="hibernate.connection.provider_class">org.hibernate.hikaricp.internal.HikariCPConnectionProvider</property>
 
-        <!-- Pool settings -->
+        <!-- HikariCP-specific settings (optional) -->
         <property name="hibernate.hikari.minimumIdle">2</property>
         <property name="hibernate.hikari.maximumPoolSize">10</property>
         <property name="hibernate.hikari.idleTimeout">300000</property>
