@@ -9,6 +9,7 @@ import com.complaint.system.entity.Department;
 import com.complaint.system.util.InputSanitizer;
 import com.complaint.system.util.SceneManager;
 import com.complaint.system.util.SessionManager;
+import com.complaint.system.util.StatusBadge;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -66,8 +67,11 @@ public class OfficialDashboardController {
     }
 
     private void setupTableColumns() {
+        // Let columns share the full table width (no empty gap / cut-off column).
+        complaintsTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY_FLEX_LAST_COLUMN);
+
         // Set cell value factories programmatically (NOT in FXML)
-        idColumn.setCellValueFactory(cellData -> 
+        idColumn.setCellValueFactory(cellData ->
             new SimpleObjectProperty<>(cellData.getValue().getComplaintId()));
         
         titleColumn.setCellValueFactory(cellData -> 
@@ -79,10 +83,11 @@ public class OfficialDashboardController {
         departmentColumn.setCellValueFactory(cellData -> 
             new SimpleStringProperty(cellData.getValue().getAssignedToDept().getDeptName()));
         
-        statusColumn.setCellValueFactory(cellData -> 
+        statusColumn.setCellValueFactory(cellData ->
             new SimpleStringProperty(cellData.getValue().getStatus().toString()));
-        
-        lodgedAtColumn.setCellValueFactory(cellData -> 
+        statusColumn.setCellFactory(StatusBadge.cellFactory());
+
+        lodgedAtColumn.setCellValueFactory(cellData ->
             new SimpleStringProperty(cellData.getValue().getLodgedAt().format(dateFormatter)));
     }
 
@@ -95,10 +100,12 @@ public class OfficialDashboardController {
         // Status filter
         List<Complaint.ComplaintStatus> statuses = new ArrayList<>(Arrays.asList(Complaint.ComplaintStatus.values()));
         statusFilterComboBox.setItems(FXCollections.observableArrayList(statuses));
+        statusFilterComboBox.setConverter(StatusBadge.statusConverter());
         statusFilterComboBox.setPromptText("All Statuses");
-        
+
         // Status update combo
         statusUpdateComboBox.setItems(FXCollections.observableArrayList(Complaint.ComplaintStatus.values()));
+        statusUpdateComboBox.setConverter(StatusBadge.statusConverter());
     }
 
     private void refreshComplaints() {
@@ -126,7 +133,7 @@ public class OfficialDashboardController {
             detailDescriptionLabel.setText(complaint.getDescription());
             detailLodgedByLabel.setText(complaint.getLodgedBy().getFullName());
             detailDepartmentLabel.setText(complaint.getAssignedToDept().getDeptName());
-            detailStatusLabel.setText(complaint.getStatus().toString());
+            StatusBadge.apply(detailStatusLabel, complaint.getStatus().toString());
             detailLodgedAtLabel.setText(complaint.getLodgedAt().format(dateFormatter));
             statusUpdateComboBox.getSelectionModel().select(complaint.getStatus());
             remarksArea.clear();
@@ -184,6 +191,11 @@ public class OfficialDashboardController {
         showUpdateStatus("Status updated successfully.", true);
         refreshComplaints();
         showComplaintDetails(selected);
+    }
+
+    @FXML
+    private void handleProfile() {
+        SceneManager.loadScene("ProfileView.fxml", "My Profile");
     }
 
     @FXML

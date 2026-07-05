@@ -119,18 +119,16 @@
                 <version>0.0.8</version>
                 <configuration>
                     <mainClass>com.complaint.system.MainApplication</mainClass>
+                    <!-- Cap heap so the app launches on memory-constrained machines
+                         (default G1 heap sizing tries to reserve ~1/4 of RAM and can
+                         fail to commit when free memory/page file is low). -->
+                    <options>
+                        <option>-Xms64m</option>
+                        <option>-Xmx512m</option>
+                    </options>
                 </configuration>
             </plugin>
         </plugins>
     </build>
 
-    <repositories>
-    <repository>
-        <id>oracle</id>
-        <name>Oracle Maven Repository</name>
-        <url>https://maven.oracle.com</url>
-    </repository>
-</repositories>
-
-    
 </project>

@@ -2,9 +2,14 @@ package com.complaint.system.controller;
 
 import com.complaint.system.dao.UserDAO;
 import com.complaint.system.entity.User;
+import com.complaint.system.util.EmailService;
 import com.complaint.system.util.InputSanitizer;
+import com.complaint.system.util.OtpService;
 import com.complaint.system.util.PasswordValidator;
+import com.complaint.system.util.PendingSignup;
 import com.complaint.system.util.SceneManager;
+import com.complaint.system.util.SessionManager;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -27,6 +32,13 @@ public class SignupController {
     @FXML
     private void initialize() {
         roleComboBox.setItems(FXCollections.observableArrayList(User.UserRole.values()));
+
+        // Submit on Enter from any text field.
+        fullNameField.setOnAction(e -> handleSignup());
+        usernameField.setOnAction(e -> handleSignup());
+        emailField.setOnAction(e -> handleSignup());
+        passwordField.setOnAction(e -> handleSignup());
+        confirmPasswordField.setOnAction(e -> handleSignup());
     }
 
     @FXML
@@ -70,11 +82,41 @@ public class SignupController {
             return;
         }
 
+        // "Create an account only when that email id is available"
+        if (userDAO.findByEmail(email).isPresent()) {
+            showError("An account with this email already exists.");
+            return;
+        }
+
+        // Everything is valid — hold the signup in memory and email an OTP.
+        // The account is only written to the DB once the code is verified.
         String passwordHash = BCrypt.hashpw(password, BCrypt.gensalt(10));
-        User user = new User(fullName, username, passwordHash, role, email);
-        userDAO.save(user);
-        showSuccess("Account created successfully. Please login.");
-        clearForm();
+        PendingSignup pending = new PendingSignup(fullName, username, email, passwordHash, role);
+        String code = OtpService.generateCode();
+        pending.issueCode(code, OtpService.EXPIRY_MINUTES);
+
+        sendCodeAndContinue(pending, code);
+    }
+
+    private void sendCodeAndContinue(PendingSignup pending, String code) {
+        signupButton.setDisable(true);
+        showSuccess("Sending verification code to " + pending.getEmail() + "…");
+
+        new Thread(() -> {
+            try {
+                EmailService.sendVerificationCode(pending.getEmail(), pending.getFullName(), code);
+                Platform.runLater(() -> {
+                    SessionManager.setPendingSignup(pending);
+                    signupButton.setDisable(false);
+                    SceneManager.loadScene("VerificationView.fxml", "Verify Email");
+                });
+            } catch (EmailService.EmailException e) {
+                Platform.runLater(() -> {
+                    signupButton.setDisable(false);
+                    showError(e.getMessage());
+                });
+            }
+        }, "otp-email-sender").start();
     }
 
     @FXML

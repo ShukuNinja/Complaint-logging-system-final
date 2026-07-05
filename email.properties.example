@@ -1,0 +1,20 @@
+# ------------------------------------------------------------------
+# Email (Brevo) configuration for OTP verification.
+#
+# One-time setup:
+#   1. Create a free account at https://www.brevo.com  (300 emails/day free)
+#   2. Verify a sender address:  Senders, Domains & Dedicated IPs -> Senders
+#      -> Add a sender  (confirm via the email Brevo sends you)
+#   3. Create an API key:  SMTP & API -> API Keys -> Generate a new API key
+#   4. Copy this file to  email.properties  (next to pom.xml) and fill in below.
+#
+# email.properties is gitignored so your key is never committed.
+# Environment variables (BREVO_API_KEY, MAIL_FROM, ...) override this file.
+# ------------------------------------------------------------------
+
+# Your Brevo API key (starts with "xkeysib-"):
+brevo.api.key=
+
+# The VERIFIED sender address emails are sent from:
+mail.from=your.verified.sender@example.com
+mail.from.name=Complaint Management System

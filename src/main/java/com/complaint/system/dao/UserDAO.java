@@ -66,4 +66,15 @@ public class UserDAO extends BaseDAO<User> {
             return users.isEmpty() ? Optional.empty() : Optional.of(users.get(0));
         });
     }
+
+    public Optional<User> findByEmail(String email) {
+        String sanitizedEmail = InputSanitizer.sanitizeText(email);
+        return executeInTransaction(session -> {
+            Query<User> query = session.createQuery(
+                "FROM User WHERE lower(email) = lower(:email)", User.class);
+            query.setParameter("email", sanitizedEmail);
+            List<User> users = query.getResultList();
+            return users.isEmpty() ? Optional.empty() : Optional.of(users.get(0));
+        });
+    }
 }

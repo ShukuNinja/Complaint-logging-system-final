@@ -28,6 +28,13 @@ public class LoginController {
     private UserDAO userDAO = new UserDAO();
 
     @FXML
+    private void initialize() {
+        // Submit on Enter from either field.
+        usernameField.setOnAction(e -> handleLogin());
+        passwordField.setOnAction(e -> handleLogin());
+    }
+
+    @FXML
     private void handleLogin() {
         String username = InputSanitizer.sanitizeText(usernameField.getText());
         String password = passwordField.getText();

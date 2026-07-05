@@ -7,6 +7,7 @@ import com.complaint.system.entity.Department;
 import com.complaint.system.util.InputSanitizer;
 import com.complaint.system.util.SceneManager;
 import com.complaint.system.util.SessionManager;
+import com.complaint.system.util.StatusBadge;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -50,8 +51,11 @@ public class CitizenDashboardController {
     }
 
     private void setupTableColumns() {
+        // Let columns share the full table width (no empty gap / cut-off column).
+        complaintsTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY_FLEX_LAST_COLUMN);
+
         // Set cell value factories programmatically (NOT in FXML)
-        idColumn.setCellValueFactory(cellData -> 
+        idColumn.setCellValueFactory(cellData ->
             new SimpleObjectProperty<>(cellData.getValue().getComplaintId()));
         
         titleColumn.setCellValueFactory(cellData -> 
@@ -60,10 +64,11 @@ public class CitizenDashboardController {
         departmentColumn.setCellValueFactory(cellData -> 
             new SimpleStringProperty(cellData.getValue().getAssignedToDept().getDeptName()));
         
-        statusColumn.setCellValueFactory(cellData -> 
+        statusColumn.setCellValueFactory(cellData ->
             new SimpleStringProperty(cellData.getValue().getStatus().toString()));
-        
-        lodgedAtColumn.setCellValueFactory(cellData -> 
+        statusColumn.setCellFactory(StatusBadge.cellFactory());
+
+        lodgedAtColumn.setCellValueFactory(cellData ->
             new SimpleStringProperty(cellData.getValue().getLodgedAt().format(dateFormatter)));
     }
 
@@ -107,6 +112,11 @@ public class CitizenDashboardController {
     @FXML
     private void handleRefresh() {
         refreshComplaints();
+    }
+
+    @FXML
+    private void handleProfile() {
+        SceneManager.loadScene("ProfileView.fxml", "My Profile");
     }
 
     @FXML

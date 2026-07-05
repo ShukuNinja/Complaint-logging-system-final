@@ -3,115 +3,59 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
 
 <BorderPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.complaint.system.controller.ComplaintDetailsController">
    <top>
-      <VBox alignment="CENTER" spacing="20.0" style="-fx-background-color: #FF9933;">
+      <VBox styleClass="header">
          <children>
-            <Label text="Citizen Complaint Management System" textFill="WHITE">
-               <font>
-                  <Font name="Inter Bold" size="28.0" />
-               </font>
-            </Label>
-            <Label text="सरकारी शिकायत प्रबंधन प्रणाली" textFill="WHITE">
-               <font>
-                  <Font name="Inter" size="16.0" />
-               </font>
-            </Label>
+            <Label styleClass="header-title" text="Citizen Complaint Management System" />
+            <Label styleClass="header-subtitle" text="सरकारी शिकायत प्रबंधन प्रणाली" />
          </children>
-         <padding>
-            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-         </padding>
       </VBox>
    </top>
    <center>
-      <SplitPane dividerPositions="0.4" style="-fx-background-color: #FFFFFF;">
+      <SplitPane dividerPositions="0.42" styleClass="content-area">
          <items>
-            <ScrollPane fitToWidth="true" style="-fx-background-color: transparent;">
+            <ScrollPane fitToWidth="true" styleClass="content-area">
                <content>
-                  <VBox alignment="TOP_CENTER" spacing="20.0">
+                  <VBox alignment="TOP_LEFT" spacing="16.0">
                      <children>
-                        <Label text="Complaint Details" textFill="#000080">
-                           <font>
-                              <Font name="Inter Bold" size="20.0" />
-                           </font>
-                        </Label>
-                        <VBox spacing="15.0" style="-fx-border-color: #000080; -fx-border-width: 2; -fx-border-radius: 10; -fx-background-radius: 10; -fx-background-color: #FFFFFF;" maxWidth="400.0">
+                        <Label styleClass="page-title" text="Complaint Details" />
+                        <VBox spacing="14.0" styleClass="card">
                            <children>
-                              <HBox spacing="10.0">
+                              <HBox spacing="8.0" alignment="CENTER_LEFT">
                                  <children>
-                                    <Label text="Complaint ID:" textFill="#000080" style="-fx-font-weight: bold;">
-                                       <font>
-                                          <Font name="Inter Bold" size="14.0" />
-                                       </font>
-                                    </Label>
-                                    <Label fx:id="complaintIdLabel" textFill="#333333">
-                                       <font>
-                                          <Font name="Inter" size="14.0" />
-                                       </font>
-                                    </Label>
+                                    <Label styleClass="detail-key" text="Complaint ID:" />
+                                    <Label fx:id="complaintIdLabel" styleClass="detail-value" />
                                  </children>
                               </HBox>
                               <Separator />
-                              <VBox spacing="5.0">
+                              <VBox spacing="4.0">
                                  <children>
-                                    <Label text="Title:" textFill="#000080" style="-fx-font-weight: bold;">
-                                       <font>
-                                          <Font name="Inter Bold" size="14.0" />
-                                       </font>
-                                    </Label>
-                                    <Label fx:id="titleLabel" textFill="#333333" wrapText="true">
-                                       <font>
-                                          <Font name="Inter" size="14.0" />
-                                       </font>
-                                    </Label>
+                                    <Label styleClass="detail-key" text="Title" />
+                                    <Label fx:id="titleLabel" styleClass="detail-value" wrapText="true" />
                                  </children>
                               </VBox>
                               <Separator />
-                              <VBox spacing="5.0">
+                              <VBox spacing="4.0">
                                  <children>
-                                    <Label text="Description:" textFill="#000080" style="-fx-font-weight: bold;">
-                                       <font>
-                                          <Font name="Inter Bold" size="14.0" />
-                                       </font>
-                                    </Label>
-                                    <Label fx:id="descriptionLabel" textFill="#333333" wrapText="true">
-                                       <font>
-                                          <Font name="Inter" size="13.0" />
-                                       </font>
-                                    </Label>
+                                    <Label styleClass="detail-key" text="Description" />
+                                    <Label fx:id="descriptionLabel" styleClass="detail-value" wrapText="true" />
                                  </children>
                               </VBox>
                               <Separator />
                               <HBox spacing="30.0">
                                  <children>
-                                    <VBox spacing="5.0">
+                                    <VBox spacing="4.0">
                                        <children>
-                                          <Label text="Lodged By:" textFill="#000080" style="-fx-font-weight: bold;">
-                                             <font>
-                                                <Font name="Inter Bold" size="13.0" />
-                                             </font>
-                                          </Label>
-                                          <Label fx:id="lodgedByLabel" textFill="#333333">
-                                             <font>
-                                                <Font name="Inter" size="13.0" />
-                                             </font>
-                                          </Label>
+                                          <Label styleClass="detail-key" text="Lodged By" />
+                                          <Label fx:id="lodgedByLabel" styleClass="detail-value" />
                                        </children>
                                     </VBox>
-                                    <VBox spacing="5.0">
+                                    <VBox spacing="4.0">
                                        <children>
-                                          <Label text="Department:" textFill="#000080" style="-fx-font-weight: bold;">
-                                             <font>
-                                                <Font name="Inter Bold" size="13.0" />
-                                             </font>
-                                          </Label>
-                                          <Label fx:id="departmentLabel" textFill="#333333">
-                                             <font>
-                                                <Font name="Inter" size="13.0" />
-                                             </font>
-                                          </Label>
+                                          <Label styleClass="detail-key" text="Department" />
+                                          <Label fx:id="departmentLabel" styleClass="detail-value" />
                                        </children>
                                     </VBox>
                                  </children>
@@ -119,70 +63,39 @@
                               <Separator />
                               <HBox spacing="30.0">
                                  <children>
-                                    <VBox spacing="5.0">
+                                    <VBox spacing="4.0">
                                        <children>
-                                          <Label text="Status:" textFill="#000080" style="-fx-font-weight: bold;">
-                                             <font>
-                                                <Font name="Inter Bold" size="13.0" />
-                                             </font>
-                                          </Label>
-                                          <Label fx:id="statusLabel" textFill="#138808">
-                                             <font>
-                                                <Font name="Inter Bold" size="13.0" />
-                                             </font>
-                                          </Label>
+                                          <Label styleClass="detail-key" text="Status" />
+                                          <Label fx:id="statusLabel" styleClass="detail-value" />
                                        </children>
                                     </VBox>
-                                    <VBox spacing="5.0" HBox.hgrow="ALWAYS">
+                                    <VBox spacing="4.0" HBox.hgrow="ALWAYS">
                                        <children>
-                                          <Label text="Lodged At:" textFill="#000080" style="-fx-font-weight: bold;">
-                                             <font>
-                                                <Font name="Inter Bold" size="13.0" />
-                                             </font>
-                                          </Label>
-                                          <Label fx:id="lodgedAtLabel" textFill="#333333">
-                                             <font>
-                                                <Font name="Inter" size="13.0" />
-                                             </font>
-                                          </Label>
+                                          <Label styleClass="detail-key" text="Lodged At" />
+                                          <Label fx:id="lodgedAtLabel" styleClass="detail-value" />
                                        </children>
                                     </VBox>
                                  </children>
                               </HBox>
-                              <VBox spacing="5.0">
+                              <VBox spacing="4.0">
                                  <children>
-                                    <Label text="Last Updated:" textFill="#000080" style="-fx-font-weight: bold;">
-                                       <font>
-                                          <Font name="Inter Bold" size="13.0" />
-                                       </font>
-                                    </Label>
-                                    <Label fx:id="updatedAtLabel" textFill="#333333">
-                                       <font>
-                                          <Font name="Inter" size="13.0" />
-                                       </font>
-                                    </Label>
+                                    <Label styleClass="detail-key" text="Last Updated" />
+                                    <Label fx:id="updatedAtLabel" styleClass="detail-value" />
                                  </children>
                               </VBox>
                            </children>
-                           <padding>
-                              <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-                           </padding>
                         </VBox>
                      </children>
                      <padding>
-                        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                        <Insets bottom="24.0" left="24.0" right="12.0" top="24.0" />
                      </padding>
                   </VBox>
                </content>
             </ScrollPane>
-            <VBox alignment="TOP_CENTER" spacing="20.0">
+            <VBox alignment="TOP_LEFT" spacing="16.0">
                <children>
-                  <Label text="Status History" textFill="#000080">
-                     <font>
-                        <Font name="Inter Bold" size="18.0" />
-                     </font>
-                  </Label>
-                  <TableView fx:id="historyTable" prefHeight="400.0">
+                  <Label styleClass="section-title" text="Status History" />
+                  <TableView fx:id="historyTable" prefHeight="400.0" VBox.vgrow="ALWAYS">
                      <columns>
                         <TableColumn fx:id="changedAtColumn" text="Changed At" prefWidth="130.0" />
                         <TableColumn fx:id="changedByColumn" text="Changed By" prefWidth="120.0" />
@@ -191,37 +104,25 @@
                         <TableColumn fx:id="remarksColumn" text="Remarks" prefWidth="180.0" />
                      </columns>
                   </TableView>
-                  <Label fx:id="noHistoryLabel" text="No history available for this complaint" textFill="#6c757d" visible="false">
-                     <font>
-                        <Font name="Inter" size="13.0" />
-                     </font>
-                  </Label>
-                  <Button fx:id="backButton" onAction="#handleBack" style="-fx-background-color: #138808; -fx-text-fill: WHITE; -fx-border-radius: 5; -fx-background-radius: 5; -fx-padding: 10 30; -fx-cursor: hand;">
-                     <font>
-                        <Font name="Inter Bold" size="14.0" />
-                     </font>
-                     <text>← Back to Dashboard</text>
-                  </Button>
+                  <Label fx:id="noHistoryLabel" styleClass="hint-label" text="No history available for this complaint" visible="false" />
+                  <HBox alignment="CENTER_LEFT">
+                     <children>
+                        <Button fx:id="backButton" onAction="#handleBack" text="← Back to Dashboard" />
+                     </children>
+                  </HBox>
                </children>
                <padding>
-                  <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                  <Insets bottom="24.0" left="12.0" right="24.0" top="24.0" />
                </padding>
             </VBox>
          </items>
       </SplitPane>
    </center>
    <bottom>
-      <HBox alignment="CENTER" style="-fx-background-color: #000080;">
+      <HBox alignment="CENTER" styleClass="footer">
          <children>
-            <Label text="© 2025 Government of India - Complaint Management System" textFill="WHITE">
-               <font>
-                  <Font name="Inter" size="12.0" />
-               </font>
-            </Label>
+            <Label styleClass="footer-text" text="© 2025 Government of India - Complaint Management System" />
          </children>
-         <padding>
-            <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
-         </padding>
       </HBox>
    </bottom>
 </BorderPane>

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.complaint.system.controller.ProfileController">
+   <top>
+      <VBox styleClass="header">
+         <children>
+            <Label styleClass="header-title" text="Citizen Complaint Management System" />
+            <Label styleClass="header-subtitle" text="सरकारी शिकायत प्रबंधन प्रणाली" />
+         </children>
+      </VBox>
+   </top>
+   <center>
+      <VBox alignment="CENTER" styleClass="content-area">
+         <children>
+            <VBox spacing="20.0" styleClass="card" maxWidth="460.0">
+               <children>
+                  <VBox spacing="4.0">
+                     <children>
+                        <Label styleClass="card-title" text="My Profile" />
+                        <Label styleClass="hint-label" text="Update your name and username." />
+                     </children>
+                  </VBox>
+                  <VBox spacing="6.0">
+                     <children>
+                        <Label styleClass="field-label" text="FULL NAME" />
+                        <TextField fx:id="fullNameField" promptText="Enter your full name" />
+                     </children>
+                  </VBox>
+                  <VBox spacing="6.0">
+                     <children>
+                        <Label styleClass="field-label" text="USERNAME" />
+                        <TextField fx:id="usernameField" promptText="Choose a username" />
+                     </children>
+                  </VBox>
+                  <HBox spacing="30.0">
+                     <children>
+                        <VBox spacing="4.0">
+                           <children>
+                              <Label styleClass="detail-key" text="Email" />
+                              <Label fx:id="emailLabel" styleClass="detail-value" text="" />
+                           </children>
+                        </VBox>
+                        <VBox spacing="4.0">
+                           <children>
+                              <Label styleClass="detail-key" text="Account Type" />
+                              <Label fx:id="roleLabel" styleClass="detail-value" text="" />
+                           </children>
+                        </VBox>
+                     </children>
+                  </HBox>
+                  <Button fx:id="saveButton" maxWidth="Infinity" onAction="#handleSave" text="Save Changes" />
+                  <Label fx:id="statusLabel" styleClass="error-label" visible="false" wrapText="true" />
+                  <HBox alignment="CENTER">
+                     <children>
+                        <Button fx:id="backButton" styleClass="link-button" onAction="#handleBack" text="← Back to Dashboard" />
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+         </children>
+         <padding>
+            <Insets bottom="50.0" left="50.0" right="50.0" top="50.0" />
+         </padding>
+      </VBox>
+   </center>
+   <bottom>
+      <HBox alignment="CENTER" styleClass="footer">
+         <children>
+            <Label styleClass="footer-text" text="© 2025 Government of India - Complaint Management System" />
+         </children>
+      </HBox>
+   </bottom>
+</BorderPane>

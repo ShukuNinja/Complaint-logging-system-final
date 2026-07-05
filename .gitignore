@@ -1,0 +1,14 @@
+# Build output
+target/
+
+# Logs
+logs/
+*.log
+hs_err_pid*.log
+
+# Local secrets — never commit the Brevo API key
+email.properties
+
+# IDE
+.idea/
+*.iml

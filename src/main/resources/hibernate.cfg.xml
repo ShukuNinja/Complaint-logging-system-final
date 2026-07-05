@@ -23,7 +23,8 @@
         <property name="hibernate.hikari.poolName">ComplaintSystemPool</property>
 
         <!-- Hibernate options -->
-        <property name="hibernate.dialect">org.hibernate.dialect.Oracle12cDialect</property>
+        <!-- Dialect is auto-detected from the live Oracle connection; specifying it
+             explicitly is unnecessary and triggers a Hibernate deprecation warning. -->
         <property name="hibernate.hbm2ddl.auto">update</property>
         <property name="hibernate.show_sql">true</property>
         <property name="hibernate.format_sql">true</property>

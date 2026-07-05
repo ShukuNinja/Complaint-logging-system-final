@@ -6,6 +6,7 @@ import com.complaint.system.entity.User;
 public class SessionManager {
     private static User currentUser;
     private static Complaint selectedComplaint;
+    private static PendingSignup pendingSignup;
 
     public static void setCurrentUser(User user) {
         currentUser = user;
@@ -21,6 +22,18 @@ public class SessionManager {
 
     public static Complaint getSelectedComplaint() {
         return selectedComplaint;
+    }
+
+    public static void setPendingSignup(PendingSignup signup) {
+        pendingSignup = signup;
+    }
+
+    public static PendingSignup getPendingSignup() {
+        return pendingSignup;
+    }
+
+    public static void clearPendingSignup() {
+        pendingSignup = null;
     }
 
     public static void clearSession() {

@@ -6,6 +6,7 @@ import com.complaint.system.entity.ComplaintHistory;
 import com.complaint.system.entity.User;
 import com.complaint.system.util.SceneManager;
 import com.complaint.system.util.SessionManager;
+import com.complaint.system.util.StatusBadge;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -42,18 +43,23 @@ public class ComplaintDetailsController {
     }
 
     private void setupTableColumns() {
+        // Let columns share the full table width (no empty gap / cut-off column).
+        historyTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY_FLEX_LAST_COLUMN);
+
         // Set cell value factories programmatically (NOT in FXML)
-        changedAtColumn.setCellValueFactory(cellData -> 
+        changedAtColumn.setCellValueFactory(cellData ->
             new SimpleStringProperty(cellData.getValue().getChangedAt().format(dateFormatter)));
         
         changedByColumn.setCellValueFactory(cellData -> 
             new SimpleStringProperty(cellData.getValue().getChangedBy().getFullName()));
         
-        previousStatusColumn.setCellValueFactory(cellData -> 
+        previousStatusColumn.setCellValueFactory(cellData ->
             new SimpleStringProperty(cellData.getValue().getPreviousStatus().toString()));
-        
-        newStatusColumn.setCellValueFactory(cellData -> 
+        previousStatusColumn.setCellFactory(StatusBadge.cellFactory());
+
+        newStatusColumn.setCellValueFactory(cellData ->
             new SimpleStringProperty(cellData.getValue().getNewStatus().toString()));
+        newStatusColumn.setCellFactory(StatusBadge.cellFactory());
         
         remarksColumn.setCellValueFactory(cellData -> {
             String remarks = cellData.getValue().getRemarks();
@@ -76,24 +82,9 @@ public class ComplaintDetailsController {
         lodgedByLabel.setText(complaint.getLodgedBy().getFullName());
         departmentLabel.setText(complaint.getAssignedToDept().getDeptName());
         
-        // Style status label based on status
-        String status = complaint.getStatus().toString();
-        statusLabel.setText(status);
-        switch (complaint.getStatus()) {
-            case LODGED:
-                statusLabel.setStyle("-fx-text-fill: #0d6efd; -fx-font-weight: bold;");
-                break;
-            case IN_PROGRESS:
-                statusLabel.setStyle("-fx-text-fill: #fd7e14; -fx-font-weight: bold;");
-                break;
-            case RESOLVED:
-                statusLabel.setStyle("-fx-text-fill: #138808; -fx-font-weight: bold;");
-                break;
-            case CLOSED:
-                statusLabel.setStyle("-fx-text-fill: #6c757d; -fx-font-weight: bold;");
-                break;
-        }
-        
+        // Render status as a colored pill badge
+        StatusBadge.apply(statusLabel, complaint.getStatus().toString());
+
         lodgedAtLabel.setText(complaint.getLodgedAt().format(dateFormatter));
         updatedAtLabel.setText(complaint.getUpdatedAt() != null ? 
             complaint.getUpdatedAt().format(dateFormatter) : "Not updated yet");
