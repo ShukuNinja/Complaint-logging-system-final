@@ -1,5 +1,12 @@
 # Citizen Complaint Management System
 
+![Java](https://img.shields.io/badge/Java-21-ED8B00?style=flat-square&logo=openjdk&logoColor=white)
+![JavaFX](https://img.shields.io/badge/JavaFX-21-0d7fbf?style=flat-square&logo=openjdk&logoColor=white)
+![Hibernate](https://img.shields.io/badge/Hibernate-6.3-59666C?style=flat-square&logo=hibernate&logoColor=white)
+![Oracle](https://img.shields.io/badge/Oracle-21c%20XE-F80000?style=flat-square&logo=oracle&logoColor=white)
+![Maven](https://img.shields.io/badge/Build-Maven-C71A36?style=flat-square&logo=apachemaven&logoColor=white)
+![Platform](https://img.shields.io/badge/Platform-Desktop-4c1?style=flat-square)
+
 A desktop application for citizens to lodge complaints with government departments and
 for officials to track, filter, and resolve them. Built with **JavaFX** and **Hibernate**
 on an **Oracle** database, with **email-based OTP verification** at signup.
