@@ -1,0 +1,18 @@
+# Normalize line endings: store LF in the repo and check out LF in the
+# working tree for all text files (silences the "LF will be replaced by
+# CRLF" warnings and keeps diffs consistent across machines).
+* text=auto eol=lf
+
+# Windows-native scripts keep CRLF
+*.ps1 text eol=crlf
+*.bat text eol=crlf
+*.cmd text eol=crlf
+
+# Binary files — never normalize
+*.png  binary
+*.jpg  binary
+*.jpeg binary
+*.gif  binary
+*.ico  binary
+*.jar  binary
+*.class binary
