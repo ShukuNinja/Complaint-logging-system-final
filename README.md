@@ -1,5 +1,6 @@
 # Citizen Complaint Management System
 
+[![Build](https://github.com/ShukuNinja/Complaint-logging-system-final/actions/workflows/build.yml/badge.svg)](https://github.com/ShukuNinja/Complaint-logging-system-final/actions/workflows/build.yml)
 ![Java](https://img.shields.io/badge/Java-21-ED8B00?style=flat-square&logo=openjdk&logoColor=white)
 ![JavaFX](https://img.shields.io/badge/JavaFX-21-0d7fbf?style=flat-square&logo=openjdk&logoColor=white)
 ![Hibernate](https://img.shields.io/badge/Hibernate-6.3-59666C?style=flat-square&logo=hibernate&logoColor=white)
