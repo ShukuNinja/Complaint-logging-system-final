@@ -172,6 +172,35 @@ update the JDK path inside them to match your machine.
 
 ---
 
+## Why This App Runs Locally (Not on the Web)
+
+This is a **desktop application** and is meant to be run on each user's own PC —
+it cannot be handed out as a public web link without re-architecting it. Two
+reasons make a direct web deployment impossible:
+
+1. **JavaFX is a desktop UI toolkit, not a web framework.** It draws native
+   operating-system windows; a web browser has nothing it can render. There is
+   no "export to web" step — a browser simply cannot run a JavaFX application.
+
+2. **The database is local.** The app connects to an Oracle instance on
+   `localhost`. A server deployed on the internet cannot reach a database
+   running on someone's personal machine, so the data would have to live in a
+   cloud-hosted database instead.
+
+Turning this into a hosted web app would require **either**:
+
+- **rebuilding the UI for the browser** (e.g. a Spring Boot backend with
+  server-rendered HTML or a JavaScript frontend), reusing the existing
+  entities, DAOs, and business logic; **or**
+- **streaming the JavaFX UI to the browser** via a tool such as JPro or
+  Webswing, hosted on a server;
+
+…and in **both** cases, migrating the database to a cloud-hosted service.
+
+Until then, follow the setup and run steps above to launch it locally.
+
+---
+
 ## Troubleshooting
 
 | Problem | Fix |
